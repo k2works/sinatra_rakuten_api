@@ -64,18 +64,30 @@ sinatraで楽天APIを利用したWebアプリを作る
         ├── index.erb
         └── layout.erb
 
+### Livereload 環境にする ###
+
+    $ guard init
+    $ foreman start
+
++ [Guardfile](classic/Guardfile)
+
++ [Procfile](classic/Procfile)
+
 ### Gemfileの作成 ###
+
 + [Gemfile](Gemfile)
 
 + bundle installを実行
-    
-### Procfileの作成 ###
-
-+ [Procfile](Procfile)
 
 + ローカルで動作を確認する
 
         $ foreman start
+    
+### Heroku用Procfileの編集 ###
+
++ [Procfile](Procfile)
+
+        web: bundle exec ruby main.rb -p $PORT
 
 ### Gitレポジトリの作成 ###
 
@@ -103,5 +115,24 @@ sinatraで楽天APIを利用したWebアプリを作る
     web.1: up 2013/12/12 11:01:48 (~ 7m ago)
 
     $ heroku open
+
+## 楽天APIを使ったアプリケーション ##
+
+### 設定 ###
+
++ [共通設定](config.rb)
+
+### 市場商品の検索 ###
+
++ [SDKによるデータ取得](ichibaitemsearch.rb)
+
+### ジャンル ###
+
++ [SDKによるデータ取得](ichibagenresearch.rb)
+
+### 市場商品ランキング ###
+
++ [SDKによるデータ取得](ichibaitemranking.rb)
+
 
 # 参照 #
