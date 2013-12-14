@@ -104,6 +104,4 @@ sinatraで楽天APIを利用したWebアプリを作る
 
     $ heroku open
 
-
-
 # 参照 #
