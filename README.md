@@ -172,3 +172,8 @@ sinatraで楽天APIを利用したWebアプリを作る
   + [ジャンルランキング](views/genre_ranking.erb)            
 
 # 参照 #
+[楽天WEB SERVICE](http://webservice.rakuten.co.jp/)
+
+[Ruby SDK](http://webservice.rakuten.co.jp/sdk/ruby.html)
+
+[GitHub](https://github.com/rakuten-ws/rws-ruby-sdk)
