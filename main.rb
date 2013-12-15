@@ -21,7 +21,8 @@ get '/item_search' do
 end
 
 get '/genre_search' do
-  @root = RakutenWebService::Ichiba::Genre.root # root genre
+  # root genre
+  @root = RakutenWebService::Ichiba::Genre.root  
   erb :genre_search
 end
 

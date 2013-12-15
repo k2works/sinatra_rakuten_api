@@ -136,15 +136,38 @@ sinatraで楽天APIを利用したWebアプリを作る
             erb :item_search
         end
             
-+ [ビュー追加](views/item_search.rb)
++ [ビュー追加](views/item_search.erb)
 
 ### ジャンル ###
 
-+ [SDKによるデータ取得](ichibagenresearch.rb)
++ [コントローラ修正](main.rb)
+
+        get '/genre_search' do
+          # root genre
+          @root = RakutenWebService::Ichiba::Genre.root  
+          erb :genre_search
+        end
+            
++ [ビュー追加](views/genre_search.erb)
 
 ### 市場商品ランキング ###
 
-+ [SDKによるデータ取得](ichibaitemranking.rb)
++ [コントローラ修正](main.rb)
 
+        get '/item_ranking' do
+          # 30代男性 のランキングTOP 30
+          @rankings = RakutenWebService::Ichiba::Item.ranking(:age => 30, :sex => 0)
+          erb :item_ranking
+        end
+
+        get '/genre_ranking' do
+          RakutenWebService::Ichiba::Genre.root
+          # "水・ソフトドリンク" ジャンルのTOP 30
+          @rankings = RakutenWebService::Ichiba::Genre[100316].ranking
+          erb :genre_ranking
+        end
+            
++ [ビュー追加](views/item_ranking.erb)
++ [ビュー追加](views/genre_ranking.erb)            
 
 # 参照 #
