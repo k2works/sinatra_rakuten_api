@@ -167,7 +167,8 @@ sinatraで楽天APIを利用したWebアプリを作る
           erb :genre_ranking
         end
             
-+ [ビュー追加](views/item_ranking.erb)
-+ [ビュー追加](views/genre_ranking.erb)            
++ ビュー追加
+  + [商品ランキング](views/item_ranking.erb)
+  + [ジャンルランキング](views/genre_ranking.erb)            
 
 # 参照 #
