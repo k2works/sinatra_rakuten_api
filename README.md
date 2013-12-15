@@ -19,8 +19,9 @@ sinatraで楽天APIを利用したWebアプリを作る
 
 # 構成 #
 + [セットアップ](#chap1)
-+ [アプリケーション](#chap2)
++ [ベースアプリケーション](#chap2)
 + [デプロイ](#chap3)
++ [楽天APIを使ったアプリケーション]()
 
 # 詳細 #
 
@@ -34,7 +35,7 @@ sinatraで楽天APIを利用したWebアプリを作る
     $ gem install bundler
     $ bundle init
 
-## <a name="chap2">アプリケーション ##
+## <a name="chap2">ベースアプリケーション ##
 
 ### ベースアプリケーションの作成 ###
     bash-3.2$ tree
@@ -116,15 +117,26 @@ sinatraで楽天APIを利用したWebアプリを作る
 
     $ heroku open
 
-## 楽天APIを使ったアプリケーション ##
+## <a name="chap4">楽天APIを使ったアプリケーション ##
 
 ### 設定 ###
 
 + [共通設定](config.rb)
 
++ Gemfileに追加
+
+        gem 'rakuten_web_service'
+
 ### 市場商品の検索 ###
 
-+ [SDKによるデータ取得](ichibaitemsearch.rb)
++ [コントローラ修正](main.rb)
+
+        get '/item_search' do
+            @items = RakutenWebService::Ichiba::Item.search(:keyword => 'Ruby') # This returns Enamerable object
+            erb :item_search
+        end
+            
++ [ビュー追加](views/item_search.rb)
 
 ### ジャンル ###
 

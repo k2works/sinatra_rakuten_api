@@ -17,6 +17,10 @@ GEM
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.5.3)
     eventmachine (1.0.3)
+    faraday (0.8.8)
+      multipart-post (~> 1.2.0)
+    faraday_middleware (0.9.0)
+      faraday (>= 0.7.4, < 0.9)
     ffi (1.9.3)
     foreman (0.63.0)
       dotenv (>= 0.7)
@@ -40,6 +44,7 @@ GEM
     lumberjack (1.0.4)
     method_source (0.8.2)
     multi_json (1.8.2)
+    multipart-post (1.2.0)
     pry (0.9.12.4)
       coderay (~> 1.0)
       method_source (~> 0.8)
@@ -55,6 +60,9 @@ GEM
       rack
     rack-protection (1.5.1)
       rack
+    rakuten_web_service (0.3.1)
+      faraday (~> 0.8.8)
+      faraday_middleware
     rb-fsevent (0.9.3)
     rb-inotify (0.9.3)
       ffi (>= 0.5.0)
@@ -85,6 +93,7 @@ DEPENDENCIES
   pry-debugger
   pry-doc
   rack-livereload
+  rakuten_web_service
   shotgun
   sinatra
   thin

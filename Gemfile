@@ -2,6 +2,7 @@ source "https://rubygems.org"
 
 ruby "1.9.3"
 gem 'sinatra'
+gem 'rakuten_web_service'
 
 group :develoopment do
   gem 'shotgun'
