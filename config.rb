@@ -1,5 +1,9 @@
+require 'sinatra'
+require "sinatra/activerecord"
 require 'rakuten_web_service'
 require 'pry'
+
+set :database, "sqlite3:///rakuten_api.sqlite3"
 
 RakutenWebService.configuration do |c|
   c.application_id = '1045593932566223289'

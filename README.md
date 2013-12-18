@@ -21,7 +21,8 @@ sinatraで楽天APIを利用したWebアプリを作る
 + [セットアップ](#chap1)
 + [ベースアプリケーション](#chap2)
 + [デプロイ](#chap3)
-+ [楽天APIを使ったアプリケーション]()
++ [楽天APIを使ったアプリケーション](#chap4)
++ [ActiveRecordを使えるようにする](#chap5)
 
 # 詳細 #
 
@@ -171,9 +172,97 @@ sinatraで楽天APIを利用したWebアプリを作る
   + [商品ランキング](views/item_ranking.erb)
   + [ジャンルランキング](views/genre_ranking.erb)            
 
+## <a name="chap5">ActiveRecordを使えるようにする ##
+
+### セットアップ ###
+
++ Gemfileを編集する
+
+        gem "sinatra-activerecord"
+        gem "sqlite3"
+        gem "rake"
+
++ config.rbを編集する
+
+        require "sinatra/activerecord"
+        set :database, "sqlite3:///rakuten_api.sqlite3"
+
++ Rakefileを追加する
+
+        require "sinatra/activerecord/rake"
+        require "./main"
+
++ Profileを修正する
+
+        web: bundle exec rackup config.ru -p $PORT
+
++ 動作確認
+
+        $ rake -T
+        $ foreman start
+
+### 商品検索データベースを作る ###
+
++ マイグレーションファイル作成
+
+        $ rake db:create_migration NAME=item_searches
+
++ マイグレーションファイル編集
+
+        class ItemSearch < ActiveRecord::Migration
+          def change
+            create_table :item_searches do |t|
+              t.string :name
+              t.decimal :price
+            end
+          end
+        end
+
++ マイグレーション実行
+
+        $ rake db:migrate
+
++ モデルファイルを作成
+
+        class ItemSearch < ActiveRecord::Base
+          validates_presence_of :name
+        end
+
+### 商品検索データ作成機能を作る ###
+
++ [作成ページ作成](create.erb)
+
+
++ [商品作成機能追加](main.rb)
+
+        get '/create' do
+          erb :create
+        end
+
+        post '/create_item_search' do
+          @items = RakutenWebService::Ichiba::Item.search(:keyword => 'Ruby')
+          @items.first(10).each do |item|
+            search_item = ItemSearch.find_by_name(item.name) || ItemSearch.new
+            search_item[:name] = item.name
+            search_item[:price] = item.price
+            search_item.save
+          end
+
+          redirect '/item_search_data'
+        end
+
+        get '/item_search_data' do
+          @items = ItemSearch.all
+          erb :item_search
+        end
+
+
 # 参照 #
+
 [楽天WEB SERVICE](http://webservice.rakuten.co.jp/)
 
 [Ruby SDK](http://webservice.rakuten.co.jp/sdk/ruby.html)
 
 [GitHub](https://github.com/rakuten-ws/rws-ruby-sdk)
+
+[janko-m / sinatra-activerecord](https://github.com/janko-m/sinatra-activerecord)
