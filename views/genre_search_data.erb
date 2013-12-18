@@ -1,0 +1,16 @@
+      <div class="starter-template">
+        <h1>ジャンル検索サンプル１ </h1>
+        <a href="<%= @genre_search_data_download_link %>">csvダウンロード</a>        
+          <table class="table table-hover">
+            <tr>
+              <th>id</th>
+              <th>名前</th>
+            </tr>
+            <% @root.each do |child| %>                    
+            <tr>
+              <td><%= child.id %></td>
+              <td><%= child.name %></td>
+            </tr>
+            <% end %>        
+          </table>          
+      </div>

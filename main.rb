@@ -10,6 +10,14 @@ before do
   @item_ranking_link = '/item_ranking'
   @genre_ranking_link = '/genre_ranking'
   @create_link = '/create'
+  @item_search_data_link = '/item_search_data'
+  @item_search_data_download_link = 'csv/item_search_data'
+  @genre_search_data_link = '/genre_search_data'
+  @genre_search_data_download_link = 'csv/genre_search_data'  
+  @item_ranking_data_link = '/item_ranking_data'
+  @item_ranking_data_download_link = 'csv/item_ranking_data'  
+  @genre_ranking_data_link = '/genre_ranking_data'
+  @genre_ranking_data_download_link = 'csv/genre_ranking_data'
 end
 
 get '/' do
@@ -58,7 +66,7 @@ end
 
 get '/item_search_data' do
   @items = ItemSearch.all
-  erb :item_search
+  erb :item_search_data
 end
 
 post '/create_genre_search' do
@@ -75,7 +83,7 @@ end
 
 get '/genre_search_data' do
   @root = GenreSearch.all
-  erb :index
+  erb :genre_search_data
 end
 
 post '/create_item_ranking' do
@@ -92,7 +100,7 @@ end
 
 get '/item_ranking_data' do
   @rankings = ItemRanking.all
-  erb :item_ranking  
+  erb :item_ranking_data
 end
 
 post '/create_genre_ranking' do
@@ -110,7 +118,21 @@ end
 
 get '/genre_ranking_data' do
   @rankings = GenreRanking.all
-  erb :genre_ranking  
+  erb :genre_ranking_data
+end
+
+get '/csv/:file' do
+  file = @params[:file]
+
+  content_type 'text/csv'
+  attachment file + '.' + 'csv'
+    
+  case file
+  when 'item_search_data' then ItemSearch.to_csv
+  when 'genre_search_data' then GenreSearch.to_csv
+  when 'item_ranking_data' then ItemRanking.to_csv
+  when 'genre_ranking_data' then GenreRanking.to_csv        
+  end
 end
 
 after do

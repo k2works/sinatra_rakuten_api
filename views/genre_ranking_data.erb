@@ -1,0 +1,16 @@
+      <div class="starter-template">
+        <h1>"水・ソフトドリンク" ジャンルのTOP 30</h1>
+        <a href="<%= @genre_ranking_data_download_link %>">csvダウンロード</a>
+          <table class="table table-hover">
+            <tr>
+              <th>順位</th>
+              <th>名前</th>
+            </tr>
+            <% @rankings.each do |ranking| %>  
+            <tr>
+              <td><%= ranking.rank %></td>
+              <td><%= ranking.name %></td>
+            </tr>
+            <% end %>        
+          </table>          
+      </div>

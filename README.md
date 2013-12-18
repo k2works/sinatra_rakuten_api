@@ -23,6 +23,7 @@ sinatraで楽天APIを利用したWebアプリを作る
 + [デプロイ](#chap3)
 + [楽天APIを使ったアプリケーション](#chap4)
 + [ActiveRecordを使えるようにする](#chap5)
++ [CSVでエクスポート出来るようにする](#chap6)
 
 # 詳細 #
 
@@ -255,6 +256,44 @@ sinatraで楽天APIを利用したWebアプリを作る
           @items = ItemSearch.all
           erb :item_search
         end
+
+## <a name="chap6">CSVでエクスポート出来るようにする ##
+
+### csvライブラリを読み込めるようにする ###
+
++ [config.rb](config.rb)
+
+        require 'csv'
+        require 'kconv'
+
++ [モデルにcsvメソッドを追加](model.rb)
+
+        def self.to_csv(options = {})
+            csv_data = CSV.generate(options) do |csv|
+              csv << column_names
+              all.each do |account|
+                csv << account.attributes.values_at(*column_names)
+              end
+            end
+            
+            csv_data = csv_data.tosjis
+        end
+
++ [csvダウンロードメソッドを追加](main.rb)
+
+        get '/csv/:file' do
+          file = @params[:file]
+
+          content_type 'text/csv'
+          attachment file + '.' + 'csv'
+    
+          case file
+          when 'ItemSearch' then ItemSearch.to_csv    
+          end
+        end
+
++ [ダウンロードリンクを追加する](views/item_search_data.erb)
+
 
 
 # 参照 #

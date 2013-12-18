@@ -2,6 +2,8 @@ require 'sinatra'
 require "sinatra/activerecord"
 require 'rakuten_web_service'
 require 'pry'
+require 'csv'
+require 'kconv'
 
 set :database, "sqlite3:///rakuten_api.sqlite3"
 
