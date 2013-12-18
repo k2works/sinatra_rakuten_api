@@ -294,7 +294,7 @@ sinatraで楽天APIを利用したWebアプリを作る
 
 + [ダウンロードリンクを追加する](views/item_search_data.erb)
 
-
+        <a href="<%= @item_search_data_download_link %>">csvダウンロード</a>
 
 # 参照 #
 
