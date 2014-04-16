@@ -10,11 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131218090519) do
+ActiveRecord::Schema.define(version: 20131219072839) do
 
   create_table "genre_rankings", force: true do |t|
-    t.integer "rank"
-    t.string  "name"
+    t.integer  "rank"
+    t.string   "name"
+    t.integer  "genre_id"
+    t.string   "genre_name"
+    t.string   "title"
+    t.datetime "last_build_date"
+    t.string   "item_code"
+    t.decimal  "item_price"
+    t.integer  "review_count"
+    t.decimal  "review_average"
+    t.string   "shop_code"
+    t.string   "shop_name"
   end
 
   create_table "genre_searches", force: true do |t|

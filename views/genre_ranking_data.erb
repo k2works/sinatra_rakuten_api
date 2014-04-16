@@ -5,11 +5,15 @@
             <tr>
               <th>順位</th>
               <th>名前</th>
+              <th>ジャンルID</th>
+              <th>ジャンル名</th>              
             </tr>
             <% @rankings.each do |ranking| %>  
             <tr>
               <td><%= ranking.rank %></td>
               <td><%= ranking.name %></td>
+              <td><%= ranking.genre_id %></td>
+              <td><%= ranking.genre_name %></td>                            
             </tr>
             <% end %>        
           </table>          

@@ -44,7 +44,8 @@ end
 get '/genre_ranking' do
   RakutenWebService::Ichiba::Genre.root
   # "水・ソフトドリンク" ジャンルのTOP 30
-  @rankings = RakutenWebService::Ichiba::Genre[100316].ranking
+  #  @rankings = RakutenWebService::Ichiba::Genre[100316].ranking
+  @rankings = RakutenWebService::Ichiba::Genre[200163].ranking  
   erb :genre_ranking
 end
 
@@ -105,11 +106,21 @@ end
 
 post '/create_genre_ranking' do
   RakutenWebService::Ichiba::Genre.root
-  @rankings = RakutenWebService::Ichiba::Genre[100316].ranking
+  #  @rankings = RakutenWebService::Ichiba::Genre[100316].ranking
+  @rankings = RakutenWebService::Ichiba::Genre[200163].ranking  
   @rankings.each do |item|
     ranking_item = GenreRanking.find_by_name(item.name) || GenreRanking.new
     ranking_item[:rank] = item.rank
     ranking_item[:name] = item.name
+    ranking_item[:genre_id] = item.genre_id
+    if GenreSearch.find_by_genre_id(item.genre_id).nil?
+      ranking_item[:genre_name] = ''
+    else
+      ranking_item[:genre_name] = GenreSearch.find_by_genre_id(item.genre_id).name
+    end    
+    
+#    ranking_item[:title] = item.title
+#    ranking_item[:last_build_date] = item.last_build_date    
     ranking_item.save
   end
 
@@ -134,6 +145,43 @@ get '/csv/:file' do
   when 'genre_ranking_data' then GenreRanking.to_csv        
   end
 end
+
+get '/work' do
+  @root = RakutenWebService::Ichiba::Genre.root
+
+  @root.children.each do |root_item|
+    case root_item.id
+    when 200163 then next
+    when 101114 then next
+    when 101381 then next
+    when 402853 then next
+    when 100000 then next        
+    else
+      GenreRanking.transaction do      
+        @rankings = RakutenWebService::Ichiba::Genre[root_item.id].ranking       
+        puts 'genre_id:' + root_item.id.to_s
+        
+        @rankings.each do |item|
+          ranking_item = GenreRanking.find_by_name(item.name) || GenreRanking.new
+          ranking_item[:rank] = item.rank
+          ranking_item[:name] = item.name
+          ranking_item[:genre_id] = item.genre_id
+          ranking_item[:genre_name] = root_item.name
+          ranking_item[:item_code] = item.code
+          ranking_item[:item_price] = item.price
+          ranking_item[:review_count] = item.review_count
+          ranking_item[:review_average] = item.review_average
+          ranking_item[:shop_name] = item.shop_name
+          ranking_item[:shop_code] = item.shop_code
+          ranking_item.save
+        end      
+      end
+    end  
+  end
+  
+  redirect '/genre_ranking_data'  
+end
+
 
 after do
 end
